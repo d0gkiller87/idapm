@@ -70,8 +70,10 @@ def install_from_local(dir_name):
         print(Fore.RED + 'Your OS is unsupported...')
         return False
     
-    py_file_list = glob.glob(os.path.join(dir_name, '**/*.py'), recursive=True)
+    py_file_list = glob.glob(os.path.join(dir_name, '**/*'), recursive=True)
     for py_file_path in py_file_list:
+        if not os.path.exists(py_file_path.rsplit('.', 1)[0] + '.py'): continue
+        if py_file_path.rsplit('.',1)[-1].lower() in ('gif', 'png', 'jpg', 'md', 'txt', 'mp4'): continue
         py_file_name = os.path.basename(py_file_path)
         plugin_file_path = os.path.join(ida_plugins_dir, py_file_name)
         shutil.copyfile(py_file_path, plugin_file_path)
@@ -103,8 +105,11 @@ def install_from_github(repo_name, repo_url):
                 return False
 
         py_file_list = glob.glob(os.path.join(installed_path, '**/*.py'), recursive=True)
+        py_file_list = glob.glob(os.path.join(installed_path, '**/*'), recursive=True)
         top_dir = get_top_py_dir(py_file_list, ida_plugins_dir)
         for py_file_path in py_file_list:
+            if not os.path.exists(py_file_path.rsplit('.', 1)[0] + '.py'): continue
+            if py_file_path.rsplit('.',1)[-1].lower() in ('gif', 'png', 'jpg', 'md', 'txt', 'mp4'): continue
             py_file_path = py_file_path.replace('\\', '/')
             py_file_name = os.path.basename(py_file_path)
             symlink_dir = os.path.dirname(py_file_path)
