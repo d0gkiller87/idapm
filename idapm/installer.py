@@ -25,7 +25,7 @@ def get_plugin_dir():
             return ida_plugins_dir
 
     elif platform_name == 'Windows':
-        ida_dir_list = ['C:\Program Files\IDA*', 'C:\Program Files (x86)\IDA*']
+        ida_dir_list = ['C:/Program Files/IDA*', 'C:/Program Files (x86)/IDA*']
         ida_root_list = []
 
         for ida_dir in ida_dir_list:
@@ -161,7 +161,7 @@ def list_plugins():
         exclude_files = {
             'plugins.cfg', 'idapm'
         }
-        ida_dir_list = ['C:\Program Files\IDA*', 'C:\Program Files (x86)\IDA*']
+        ida_dir_list = ['C:/Program Files/IDA*', 'C:/Program Files (x86)/IDA*']
         ida_root_list = []
         for ida_dir in ida_dir_list:
             ida_root_list.extend(glob.glob(ida_dir))
