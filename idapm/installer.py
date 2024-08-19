@@ -91,20 +91,20 @@ def install_from_github(repo_name, repo_url):
     if ida_plugins_dir is not None:
         repo_name = shlex.quote(repo_name)  # Countermeasures for command injection
         installed_path = os.path.join(ida_plugins_dir, 'idapm', repo_name)
-        proc = subprocess.Popen(['git', 'clone', repo_url, installed_path], stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE)
-        outs, errs = proc.communicate()
-        if (outs is not None) and (len(outs) != 0):
-            msg = outs.decode('ascii').replace('\n', '')
-            print(msg)
+        if not os.path.isdir(installed_path):
+            proc = subprocess.Popen(['git', 'clone', repo_url, installed_path], stdout=subprocess.PIPE,
+                                    stderr=subprocess.PIPE)
+            outs, errs = proc.communicate()
+            if (outs is not None) and (len(outs) != 0):
+                msg = outs.decode('ascii').replace('\n', '')
+                print(msg)
 
-        if (errs is not None) and (len(errs) != 0):
-            msg = errs.decode('ascii').replace('\n', '')
-            print(msg)
-            if ('Repository not found' in msg) or ('already exists and is not an empty directory' in msg):
-                return False
+            if (errs is not None) and (len(errs) != 0):
+                msg = errs.decode('ascii').replace('\n', '')
+                print(msg)
+                if ('Repository not found' in msg) or ('already exists and is not an empty directory' in msg):
+                    return False
 
-        py_file_list = glob.glob(os.path.join(installed_path, '**/*.py'), recursive=True)
         py_file_list = glob.glob(os.path.join(installed_path, '**/*'), recursive=True)
         top_dir = get_top_py_dir(py_file_list, ida_plugins_dir)
         for py_file_path in py_file_list:
