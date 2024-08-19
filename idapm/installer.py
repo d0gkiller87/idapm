@@ -118,6 +118,9 @@ def install_from_github(repo_name, repo_url):
                     parent_dir = os.path.dirname(py_file_path)
                     if not os.path.exists(parent_dir):
                         os.makedirs(parent_dir)
+                    parent_dir = os.path.dirname(symlink_path)
+                    if not os.path.exists(parent_dir):
+                        os.makedirs(parent_dir)
                     os.symlink(py_file_path, symlink_path)
                     print('Symbolic link has been created ({0}).'.format(symlink_path))
 
